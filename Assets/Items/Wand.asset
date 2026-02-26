@@ -16,3 +16,5 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 8b6ce8563b4a10a44834eadd748703b2, type: 3}
   type: 0
   stackable: 0
+  craftAble: 0
+  craftReceipes: []
