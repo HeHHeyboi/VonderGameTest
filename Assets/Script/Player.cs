@@ -6,28 +6,33 @@ public class Player : MonoBehaviour
 {
 	public Rigidbody2D rb;
 	public float speed = 20;
-	float horizontal;
+	public Item curItem;
+	public bool flipH;
+	public HoldItem holdItem;
+	public int prevDir;
 
 	void Update()
 	{
-		horizontal = Input.GetAxis("Horizontal");
-	}
-
-	void FixedUpdate()
-	{
-		transform.Translate(horizontal * speed * Time.fixedDeltaTime * new Vector2(1, 0));
-		// rb.AddForce(horizontal * speed * Time.fixedDeltaTime * new Vector2(1, 0));
-	}
-
-	void flipPlayer(bool flipped)
-	{
-		if (flipped)
+		float horizontal = 0;
+		if (Input.GetKey(KeyCode.LeftArrow))
 		{
-			transform.Rotate(new Vector3(0, 180));
+			horizontal = -1;
 		}
-		else
+		else if (Input.GetKey(KeyCode.RightArrow))
 		{
-			transform.Rotate(new Vector3(0, -180));
+			horizontal = 1;
+		}
+		// float horizontal = Input.GetAxis("Horizontal");
+		// holdItem = transform.GetComponent<HoldItem>();
+		transform.Translate(horizontal * speed * Time.deltaTime * new Vector2(1, 0));
+	}
+
+	public void SetHoldItem(Item item)
+	{
+		curItem = item;
+		if (curItem != null)
+		{
+			holdItem.SetItemSprite(curItem.item_data.sprite);
 		}
 	}
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Inventory : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class Inventory : MonoBehaviour
 	public int maxItem = 5;
 	public InventorySlot selectedSlot = null;
 	public List<InventorySlot> InventorySlots;
+	public UnityEvent<Item> OnSelected;
 
 	// Start is called before the first frame update
 	void Start()
@@ -67,15 +69,7 @@ public class Inventory : MonoBehaviour
 		{
 			return;
 		}
-		Debug.Log(selectedSlot.GetCurrentItem());
-	}
-
-	public void UseItem()
-	{
-		if (selectedSlot == null)
-		{
-			return;
-		}
+		Debug.Log(selectedSlot.GetCurrentItem().item_data.itemName);
 	}
 
 	public void SetSelectedSlot(InventorySlot i)
@@ -84,17 +78,20 @@ public class Inventory : MonoBehaviour
 		{
 			selectedSlot = i;
 			selectedSlot.SetSelected(true);
+			OnSelected.Invoke(i.GetCurrentItem());
 		}
-		else if (selectedSlot == i)
-		{
-			selectedSlot.SetSelected(false);
-			selectedSlot = null;
-		}
-		else
+		else if (selectedSlot != i)
 		{
 			selectedSlot.SetSelected(false);
 			selectedSlot = i;
 			selectedSlot.SetSelected(true);
+			OnSelected.Invoke(i.GetCurrentItem());
+		}
+		else
+		{
+			selectedSlot.SetSelected(false);
+			selectedSlot = null;
+			OnSelected.Invoke(null);
 		}
 	}
 }
