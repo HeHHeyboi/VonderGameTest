@@ -5,10 +5,11 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
-    public ChestUI chestUI;
+    public InventoryUI chestUI;
     void Start()
     {
         instance = this;
+        chestUI.gameObject.SetActive(false);
     }
 
     // Update is called once per frame

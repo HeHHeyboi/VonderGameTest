@@ -11,7 +11,7 @@ public class InventoryItem : MonoBehaviour, IDragHandler, IEndDragHandler, IBegi
 	public Item item;
 	public Image ItemImage;
 	public TMP_Text text;
-	public Transform parentAfterDrag;
+	public GameObject parentAfterDrag;
 
 	public InventoryItem(Item item)
 	{
@@ -64,9 +64,9 @@ public class InventoryItem : MonoBehaviour, IDragHandler, IEndDragHandler, IBegi
 	public void OnBeginDrag(PointerEventData eventData)
 	{
 		ItemImage.raycastTarget = false;
-		parentAfterDrag = transform.parent.transform;
-		var canvas = transform.root.Find("Canvas");
-		transform.SetParent(canvas);
+		parentAfterDrag = transform.parent.gameObject;
+		var canvas = GetComponentInParent<Canvas>();
+		transform.SetParent(canvas.transform);
 	}
 
 	public void OnDrag(PointerEventData eventData)
@@ -77,6 +77,6 @@ public class InventoryItem : MonoBehaviour, IDragHandler, IEndDragHandler, IBegi
 	public void OnEndDrag(PointerEventData eventData)
 	{
 		ItemImage.raycastTarget = true;
-		transform.SetParent(parentAfterDrag);
+		transform.SetParent(parentAfterDrag.transform);
 	}
 }

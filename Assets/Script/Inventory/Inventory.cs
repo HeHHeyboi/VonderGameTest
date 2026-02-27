@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,22 +8,18 @@ public class Inventory : MonoBehaviour
 	public ItemData wandData;
 	public ItemData logData;
 	public int maxItem = 5;
-	public InventorySlot selectedSlot = null;
-	public List<InventorySlot> InventorySlots;
-	public readonly UnityEvent<Item> OnSelected = new();
-	public readonly UnityEvent UpdateInventory = new();
+	public List<Item> items = new();
 
-	// Start is called before the first frame update
-	void Start()
+	public readonly UnityEvent<Item> OnItemAdded = new();
+	public readonly UnityEvent<int> OnItemRemoved = new();
+	public readonly UnityEvent OnInventoryChanged = new();
+
+	private void Start()
 	{
-		if (InventorySlots == null)
+		// Initialize empty inventory with nulls
+		for (int i = 0; i < maxItem; i++)
 		{
-			InventorySlots = new List<InventorySlot>();
-		}
-
-		foreach (var i in InventorySlots)
-		{
-			i.OnSlotClick.AddListener(SetSelectedSlot);
+			items.Add(null);
 		}
 	}
 
@@ -33,35 +29,81 @@ public class Inventory : MonoBehaviour
 		{
 			return;
 		}
-		foreach (var i in InventorySlots)
+
+		// Try to stack item if stackable
+		if (item.IsStackable())
 		{
-			Item slotItem = i.GetCurrentInventoryItem().GetItem();
-			if (slotItem == null || slotItem.GetItemData() == null)
+			for (int i = 0; i < items.Count; i++)
 			{
-				var inventoryItem = i.GetCurrentInventoryItem();
-				inventoryItem.SetItem(item);
-				break;
-			}
-			else if (item.IsStackable() && item.GetItemData() == slotItem.GetItemData())
-			{
-				if (slotItem.amount < slotItem.GetItemData().maxStack)
+				if (items[i] != null && items[i].GetItemData() == item.GetItemData())
 				{
-					slotItem.amount += 1;
-					break;
+					if (items[i].amount < items[i].GetItemData().maxStack)
+					{
+						items[i].amount += item.amount;
+						OnInventoryChanged.Invoke();
+						return;
+					}
 				}
-				continue;
 			}
 		}
-		UpdateInventory.Invoke();
+
+		// Add to empty slot
+		for (int i = 0; i < items.Count; i++)
+		{
+			if (items[i] == null || items[i].GetItemData() == null)
+			{
+				items[i] = item;
+				OnItemAdded.Invoke(item);
+				OnInventoryChanged.Invoke();
+				return;
+			}
+		}
+
+		Debug.LogWarning("Inventory is full!");
 	}
 
-	public bool CheckRequireCraftItem(CraftReceipe receipe)
+	public void RemoveItem(int index)
 	{
-		ItemData requireItem = receipe.item;
-		int requireAmount = receipe.amount;
-		foreach (var i in InventorySlots)
+		if (index >= 0 && index < items.Count)
 		{
-			Item item = i.GetCurrentInventoryItem().GetItem();
+			items[index] = null;
+			OnItemRemoved.Invoke(index);
+			OnInventoryChanged.Invoke();
+		}
+	}
+
+	public void SwapItems(int index1, int index2)
+	{
+		// Debug.Log($"Swapped items at index {index1} and {index2}");
+		if (index1 >= 0 && index1 < items.Count && index2 >= 0 && index2 < items.Count)
+		{
+			Item temp = items[index1];
+			items[index1] = items[index2];
+			items[index2] = temp;
+		}
+	}
+
+	public Item GetItem(int index)
+	{
+		if (index >= 0 && index < items.Count)
+		{
+			return items[index];
+		}
+		return null;
+	}
+
+	public List<Item> GetAllItems()
+	{
+		return new List<Item>(items);
+	}
+
+	public bool CheckRequireCraftItem(CraftReceipe recipe)
+	{
+		ItemData requireItem = recipe.item;
+		int requireAmount = recipe.amount;
+
+		foreach (var item in items)
+		{
 			if (item == null)
 			{
 				continue;
@@ -82,13 +124,13 @@ public class Inventory : MonoBehaviour
 		return false;
 	}
 
-	public void CraftItem(CraftReceipe receipe)
+	public void CraftItem(CraftReceipe recipe)
 	{
-		ItemData requireItem = receipe.item;
-		int requireAmount = receipe.amount;
-		foreach (var i in InventorySlots)
+		ItemData requireItem = recipe.item;
+		int requireAmount = recipe.amount;
+
+		foreach (var item in items)
 		{
-			Item item = i.GetCurrentInventoryItem().GetItem();
 			if (item == null)
 			{
 				continue;
@@ -111,18 +153,18 @@ public class Inventory : MonoBehaviour
 		CleanUpInventory();
 	}
 
-	public void UseItem()
+	public void UseItem(int index)
 	{
-		if (selectedSlot == null)
+		if (index < 0 || index >= items.Count || items[index] == null)
 		{
 			return;
 		}
 
-		var item = selectedSlot.GetCurrentInventoryItem().GetItem();
-		if (item != null)
+		Item item = items[index];
+		Debug.Log("Use " + item.GetItemData().name);
+		Debug.Log("Amount " + item.amount);
+		if (item.GetItemData().type == ItemType.Placeable)
 		{
-			Debug.Log("Use " + item.GetItemData().name);
-			Debug.Log("Amount " + item.amount);
 			item.amount -= 1;
 			CleanUpInventory();
 		}
@@ -130,63 +172,40 @@ public class Inventory : MonoBehaviour
 
 	public void CleanUpInventory()
 	{
-		foreach (var i in InventorySlots)
+		for (int i = 0; i < items.Count; i++)
 		{
-			Item item = i.GetCurrentInventoryItem().GetItem();
-			if (item == null)
+			if (items[i] != null && items[i].amount <= 0)
 			{
-				continue;
-			}
-			if (item.amount <= 0)
-			{
-				i.Clear();
+				items[i] = null;
+				OnItemRemoved.Invoke(i);
 			}
 		}
+		OnInventoryChanged.Invoke();
 	}
 
 	public void AddWand()
 	{
-		var item = new Item(wandData);
-		AddItem(item);
+		if (wandData != null)
+		{
+			var item = new Item(wandData);
+			AddItem(item);
+		}
+		else
+		{
+			Debug.LogError("wandData is not assigned!");
+		}
 	}
 
 	public void AddLog()
 	{
-		var item = new Item(logData);
-		AddItem(item);
-	}
-
-	public void PrintSelected()
-	{
-		if (selectedSlot == null)
+		if (logData != null)
 		{
-			return;
-		}
-		Debug.Log(selectedSlot.GetCurrentInventoryItem().GetItem().GetItemData().name);
-	}
-
-	public void SetSelectedSlot(InventorySlot i)
-	{
-		if (selectedSlot == null)
-		{
-			selectedSlot = i;
-			selectedSlot.SetSelected(true);
-			Item item = i.GetCurrentInventoryItem().GetItem();
-			OnSelected.Invoke(item);
-		}
-		else if (selectedSlot != i)
-		{
-			selectedSlot.SetSelected(false);
-			selectedSlot = i;
-			selectedSlot.SetSelected(true);
-			Item item = i.GetCurrentInventoryItem().GetItem();
-			OnSelected.Invoke(item);
+			var item = new Item(logData);
+			AddItem(item);
 		}
 		else
 		{
-			selectedSlot.SetSelected(false);
-			selectedSlot = null;
-			OnSelected.Invoke(null);
+			Debug.LogError("logData is not assigned!");
 		}
 	}
 }

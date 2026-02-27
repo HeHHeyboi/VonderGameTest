@@ -4,12 +4,12 @@ public class GameManager : MonoBehaviour
 {
 	public Player player;
 	public Inventory playerInventory;
+	public InventoryUI inventoryUI;
 	public CraftManager craftManager;
 
 	void OnEnable()
 	{
-		playerInventory.OnSelected.AddListener(SetPlayerSelectedItem);
-		playerInventory.UpdateInventory.AddListener(InventoryUpdate);
+		inventoryUI.OnSelected.AddListener(SetPlayerSelectedItem);
 		craftManager.AddListener(CraftItem);
 		craftManager.AddListener(CheckCraftItemReceipe);
 		player.PlaceItem.AddListener(PlayerPlaceItem);
@@ -17,30 +17,21 @@ public class GameManager : MonoBehaviour
 
 	void OnDisable()
 	{
-		playerInventory.OnSelected.RemoveListener(SetPlayerSelectedItem);
-		playerInventory.UpdateInventory.RemoveListener(InventoryUpdate);
+		inventoryUI.OnSelected.RemoveListener(SetPlayerSelectedItem);
 		craftManager.RemoveListener(CheckCraftItemReceipe);
 		craftManager.RemoveListener(CraftItem);
 		player.PlaceItem.RemoveListener(PlayerPlaceItem);
 	}
 
-	public void PlayerPlaceItem()
+	public void PlayerPlaceItem(int index)
 	{
-		playerInventory.UseItem();
+		playerInventory.UseItem(index);
 	}
 
-	void SetPlayerSelectedItem(Item item)
+	void SetPlayerSelectedItem(Item item, int index)
 	{
 		player.SetHoldItem(item);
-	}
-
-	void InventoryUpdate()
-	{
-		if (craftManager.gameObject.activeSelf)
-		{
-			ItemData craftItem = craftManager.GetCurrentSelectedItem();
-			CheckCraftItemReceipe(craftItem);
-		}
+		player.curItemIndex = index;
 	}
 
 	void CheckCraftItemReceipe(ItemData craftItem)

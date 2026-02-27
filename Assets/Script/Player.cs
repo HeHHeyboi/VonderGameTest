@@ -8,11 +8,12 @@ public class Player : MonoBehaviour
 	public Rigidbody2D rb;
 	public float speed = 20;
 	public Item curItem;
+	public int curItemIndex;
 	public GameObject playerHand;
 	public bool flipH;
 	public HoldItem holdItem;
 	public int prevDir;
-	public readonly UnityEvent PlaceItem = new();
+	public readonly UnityEvent<int> PlaceItem = new();
 
 	void Update()
 	{
@@ -49,7 +50,7 @@ public class Player : MonoBehaviour
 				PlaceItem placeItem = (PlaceItem)data;
 				var obj = Instantiate(placeItem.placePrefab, null, true);
 				obj.transform.position = transform.position;
-				PlaceItem.Invoke();
+				PlaceItem.Invoke(curItemIndex);
 				break;
 			case ItemType.Weapon:
 				break;

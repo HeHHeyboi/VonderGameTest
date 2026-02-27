@@ -9,6 +9,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 	public int id;
 	public Outline selectedBorder;
 	public readonly UnityEvent<InventorySlot> OnSlotClick = new();
+	public readonly UnityEvent<InventorySlot,InventorySlot> OnItemChangeSlot = new();
 
 	// void Start()
 	// {
@@ -29,13 +30,17 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 		InventoryItem item = eventData.pointerDrag.GetComponent<InventoryItem>();
 		if (transform.childCount == 0)
 		{
-			item.parentAfterDrag = transform;
+			var prevSlot = item.parentAfterDrag.GetComponent<InventorySlot>();
+			item.parentAfterDrag = this.gameObject;
+			OnItemChangeSlot.Invoke(prevSlot, this);
 		}
 		else
 		{
+			var prevSlot = item.parentAfterDrag.GetComponent<InventorySlot>();
 			InventoryItem cur_item = transform.GetComponentInChildren<InventoryItem>();
-			cur_item.transform.SetParent(item.parentAfterDrag);
-			item.parentAfterDrag = transform;
+			cur_item.transform.SetParent(item.parentAfterDrag.transform);
+			item.parentAfterDrag = this.gameObject;
+			OnItemChangeSlot.Invoke(prevSlot, this);
 		}
 	}
 
