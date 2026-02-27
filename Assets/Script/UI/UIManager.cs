@@ -18,16 +18,17 @@ public class UIManager : MonoBehaviour
 
 	void OpenChestInventory(Chest chest)
     {
-        isChestUIOpen = !isChestUIOpen;
-        if (isChestUIOpen)
+        if (!isChestUIOpen)
         {
             chestUI.SetInventory(chest.GetComponent<Inventory>());
-            chestUI.gameObject.SetActive(isChestUIOpen);
+            chestUI.gameObject.SetActive(true);
+            isChestUIOpen = true;
         }
         else
         {
             chestUI.SetInventory(null);
-            chestUI.gameObject.SetActive(isChestUIOpen);
+            chestUI.gameObject.SetActive(false);
+            isChestUIOpen = false;
         }
     }
 }

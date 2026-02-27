@@ -25,10 +25,17 @@ public class InventoryItem : MonoBehaviour, IDragHandler, IEndDragHandler, IBegi
 
 	void Start()
 	{
-		if (item.GetItemData() != null && ItemImage != null)
+		if(item == null || item.GetItemData() == null)
 		{
-			ItemImage.sprite = item.GetItemData().sprite;
+			this.item = null;
+			ItemImage.sprite = null;
+			text.text = "";
+			ItemImage.enabled = false;
+			return;
 		}
+
+		ItemImage.enabled = true;
+		ItemImage.sprite = this.item.GetItemData().sprite;
 	}
 
 	void Update()

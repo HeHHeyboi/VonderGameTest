@@ -29,8 +29,11 @@ public class InventoryUI : MonoBehaviour
 			{
 				slot.SetInteractable(false);
 			}
+			else
+			{
+				slot.OnSlotClick.AddListener(SetSelectedSlot);
+			}
 			slot.OnItemChangeSlot.AddListener(OnChangeItemSlot);
-			slot.OnSlotClick.AddListener(SetSelectedSlot);
 		}
 
 		// Subscribe to inventory changes
@@ -56,23 +59,39 @@ public class InventoryUI : MonoBehaviour
 			inventory.OnInventoryChanged.AddListener(UpdateUI);
 		}
 
+
+		Debug.Log($"Inventory set for {gameObject.name}, has inventory: {inventory != null}");
+
 		UpdateUI();
 	}
 
-	public void OnChangeItemSlot(InventorySlot slot1, InventorySlot slot2)
+	public void OnChangeItemSlot(InventorySlot prevSlot, InventorySlot currentSlot)
 	{
-		int index1 = slot1.id;
-		int index2 = slot2.id;
-		int selectedIndex = selectedSlot != null ? selectedSlot.id : -1;
-
-		if (slot1.parentInventoryUI != slot2.parentInventoryUI)
+		if (currentSlot.parentInventoryUI != this &&
+			prevSlot.parentInventoryUI != this)
 		{
-			MoveItemBetweenInventories(slot1, slot2);
+			return;
+		}
+
+		int index1 = prevSlot.id;
+		int index2 = currentSlot.id;
+		int selectedIndex = selectedSlot != null ? selectedSlot.id : -1;
+		Debug.Log($"Changing item from slot {index1} to slot {index2}");
+		Debug.Log($"parent inventory of prev slot: {prevSlot.parentInventoryUI}, parent inventory of current slot: {currentSlot.parentInventoryUI}");
+
+		if (prevSlot.parentInventoryUI != currentSlot.parentInventoryUI)
+		{
+			MoveItemBetweenInventories(prevSlot, currentSlot);
 		}
 		else if (index1 >= 0 && index2 >= 0 && inventory != null)
 		{
 			inventory.SwapItems(index1, index2);
 		}
+
+		// if (currentSlot.parentInventoryUI.isChestUI)
+		// {
+		// 	return;
+		// }
 
 		if (selectedSlot != null && (selectedIndex == index1 || selectedIndex == index2))
 		{
@@ -105,18 +124,8 @@ public class InventoryUI : MonoBehaviour
 		Item fromItem = fromInventory.GetItem(fromIndex);
 		Item toItem = toInventory.GetItem(toIndex);
 
-		// Move/swap items between inventories
-		if (fromItem != null)
-		{
-			fromInventory.RemoveItem(fromIndex);
-			toInventory.SetItem(toIndex, fromItem);
-		}
-
-		if (toItem != null)
-		{
-			toInventory.RemoveItem(toIndex);
-			fromInventory.SetItem(fromIndex, toItem);
-		}
+		fromInventory.SetItem(fromIndex, toItem);
+		toInventory.SetItem(toIndex, fromItem);
 	}
 
 	public void SetSelectedSlot(InventorySlot slot)

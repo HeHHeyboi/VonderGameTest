@@ -26,7 +26,6 @@ public class Chest : MonoBehaviour
 		{
 			canvas.gameObject.SetActive(true);
 			isPlayerEnter = true;
-			Debug.Log("Player in interact zone");
 		}
 	}
 
@@ -36,7 +35,6 @@ public class Chest : MonoBehaviour
 		{
 			canvas.gameObject.SetActive(false);
 			isPlayerEnter = false;
-			Debug.Log("Player left interact zone");
 		}
 	}
 }
