@@ -5,7 +5,6 @@ using UnityEngine.Events;
 
 public class Inventory : MonoBehaviour
 {
-	public InventoryItem inventoryItemPrefab;
 	public ItemData wandData;
 	public ItemData logData;
 	public int maxItem = 5;
@@ -37,7 +36,7 @@ public class Inventory : MonoBehaviour
 		foreach (var i in InventorySlots)
 		{
 			Item slotItem = i.GetCurrentInventoryItem().GetItem();
-			if (slotItem == null)
+			if (slotItem.GetItemData() == null)
 			{
 				var inventoryItem = i.GetCurrentInventoryItem();
 				inventoryItem.SetItem(item);

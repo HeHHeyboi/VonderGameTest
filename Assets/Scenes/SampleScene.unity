@@ -704,7 +704,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 491831631}
   speed: 10
-  curItem: {fileID: 0}
+  curItem:
+    data: {fileID: 0}
+    amount: 0
   playerHand: {fileID: 1702150871}
   flipH: 0
   holdItem: {fileID: 491831632}
@@ -1329,8 +1331,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryItemPrefab: {fileID: 4057161246223471469, guid: a3a0a70a373ac5740ada39740814f811, type: 3}
-  wandPrefab: {fileID: 7585415611155924279, guid: c60f3ca9bd2afd640b1a2db4e0a8cee1, type: 3}
-  logPrefab: {fileID: 1840273417609306980, guid: 83a52bf3ebf8d204f8e53ef6b5948515, type: 3}
+  wandData: {fileID: 11400000, guid: 9e9d686c33772754186b72dfedd3fbc9, type: 2}
+  logData: {fileID: 11400000, guid: f9d4146d7593bf649b2ec222fa608c22, type: 2}
   maxItem: 5
   selectedSlot: {fileID: 0}
   InventorySlots:
@@ -2346,7 +2348,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 13.8}
+  m_AnchoredPosition: {x: 0, y: 13.799988}
   m_SizeDelta: {x: 501.5992, y: 44.7715}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1316876293

@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
 
 	void UpdatePlayerItem()
 	{
-		if (curItem == null)
+		if (curItem == null || curItem.GetItemData() == null)
 		{
 			return;
 		}
@@ -49,10 +49,14 @@ public class Player : MonoBehaviour
 
 	public void SetHoldItem(Item item)
 	{
-		curItem = item;
-		if (curItem != null)
+		if(item == null || item.GetItemData() == null)
 		{
-			holdItem.SetItemSprite(curItem.GetItemData().sprite);
+			curItem = null;
+			holdItem.SetItemSprite(null);
+			return;
 		}
+
+		curItem = item;
+		holdItem.SetItemSprite(curItem.GetItemData().sprite);
 	}
 }

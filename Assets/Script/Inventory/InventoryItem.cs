@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting.ReorderableList;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -24,7 +25,7 @@ public class InventoryItem : MonoBehaviour, IDragHandler, IEndDragHandler, IBegi
 
 	void Start()
 	{
-		if (item != null && ItemImage != null)
+		if (item.GetItemData() != null && ItemImage != null)
 		{
 			ItemImage.sprite = item.GetItemData().sprite;
 		}
@@ -48,19 +49,9 @@ public class InventoryItem : MonoBehaviour, IDragHandler, IEndDragHandler, IBegi
 
 	public void SetItem(Item item)
 	{
-		if (this.item == null)
-		{
-			this.item = item;
-		}
-		else
-		{
-			item.SetItemData(this.item.GetItemData());
-		}
-
-		if (ItemImage != null)
-		{
-			ItemImage.sprite = this.item.GetItemData().sprite;
-		}
+		this.item = item;
+		Debug.Log(item.GetItemData().sprite.name);
+		ItemImage.sprite = this.item.GetItemData().sprite;
 	}
 
 	public void OnBeginDrag(PointerEventData eventData)
