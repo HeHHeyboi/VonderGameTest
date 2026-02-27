@@ -52,7 +52,7 @@ System Design: https://drive.google.com/file/d/1rJAeOVaGRVxN0sLItI0_Y0veRcxJqglZ
 - Combat System
 - Refine Other Art and UI
 
-# Challenge
+# Challenge & Problem
 ผมไม่ได้มีประสบการณ์การใช้ Unity มากทำให้ผมค่อยข้างใช้เวลาในการเรียน, ทำความเข้าใจการเขียน Script และออกแบบโครงสร้างเกมสำหรับ Unity ซึ่งทำให้ผมต้องมีการ Refactor บ่อยสาเหตุมาจาก 
 - Design ระบบที่ไม่ดีพอและขาดความเข้าใจจึงทำให้ต้องแก้ Design บ่อย
 - Prototype มาจากการทดลองระบบที่ Design ไว้รวมถึงการใช้ Feature และ Function ต่างๆของ Unity ได้ไม่เต็มร้อย จึงต้องทดลองหลายอย่าง
