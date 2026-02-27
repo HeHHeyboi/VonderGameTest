@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour
 {
@@ -29,7 +30,11 @@ public class Player : MonoBehaviour
 
 		if (Input.GetMouseButtonDown(0))
 		{
-			UseItem();
+			// Only use item if not clicking on UI
+			if (!EventSystem.current.IsPointerOverGameObject())
+			{
+				UseItem();
+			}
 		}
 		transform.Translate(horizontal * speed * Time.deltaTime * new Vector2(1, 0));
 
