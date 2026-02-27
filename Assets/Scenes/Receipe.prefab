@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7000618562142390662}
+  - component: {fileID: 1622885769782611426}
   - component: {fileID: 4347912216845256660}
   - component: {fileID: 2869054117816753153}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Receipe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,6 +41,21 @@ RectTransform:
   m_AnchoredPosition: {x: 911.3, y: -345}
   m_SizeDelta: {x: 127.0012, y: 32.8335}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1622885769782611426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2524959855805323907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0097b32ea832c944ab5f20d05240d01b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recipeImage: {fileID: 9153461244184704730}
+  recipeName: {fileID: 3943222900742490867}
+  amount: {fileID: 2801001858850402088}
 --- !u!222 &4347912216845256660
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -89,7 +105,7 @@ GameObject:
   - component: {fileID: 2147728211065418241}
   - component: {fileID: 4390992070542449856}
   - component: {fileID: 9153461244184704730}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -164,7 +180,7 @@ GameObject:
   - component: {fileID: 6891543653058546360}
   - component: {fileID: 8787403549411366045}
   - component: {fileID: 3943222900742490867}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ReceipeName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -298,7 +314,7 @@ GameObject:
   - component: {fileID: 4117458093976454423}
   - component: {fileID: 8781081893510680439}
   - component: {fileID: 2801001858850402088}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Amount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
