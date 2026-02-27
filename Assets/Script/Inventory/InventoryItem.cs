@@ -65,7 +65,8 @@ public class InventoryItem : MonoBehaviour, IDragHandler, IEndDragHandler, IBegi
 	{
 		ItemImage.raycastTarget = false;
 		parentAfterDrag = transform.parent.transform;
-		transform.SetParent(transform.root);
+		var canvas = transform.root.Find("Canvas");
+		transform.SetParent(canvas);
 	}
 
 	public void OnDrag(PointerEventData eventData)
