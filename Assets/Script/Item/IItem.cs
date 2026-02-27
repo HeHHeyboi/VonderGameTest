@@ -10,7 +10,7 @@ public interface IUseable
 	void Use();
 }
 
-public interface IPlacealbe
+public interface IPlaceable
 {
 	void Place();
 }

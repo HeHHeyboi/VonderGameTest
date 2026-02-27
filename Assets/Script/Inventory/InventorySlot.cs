@@ -14,17 +14,6 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 	// {
 	// }
 
-	public void AddItem(Item item)
-	{
-		if (transform.childCount > 0)
-		{
-			Debug.Log("this " + name + " Already Have item");
-			return;
-		}
-
-		item.transform.SetParent(this.transform);
-	}
-
 	public void OnClick()
 	{
 		OnSlotClick.Invoke(this);
@@ -37,21 +26,31 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
 	public void OnDrop(PointerEventData eventData)
 	{
-		Item item = eventData.pointerDrag.GetComponent<Item>();
+		InventoryItem item = eventData.pointerDrag.GetComponent<InventoryItem>();
 		if (transform.childCount == 0)
 		{
 			item.parentAfterDrag = transform;
 		}
 		else
 		{
-			Item cur_item = transform.GetComponentInChildren<Item>();
+			InventoryItem cur_item = transform.GetComponentInChildren<InventoryItem>();
 			cur_item.transform.SetParent(item.parentAfterDrag);
 			item.parentAfterDrag = transform;
 		}
 	}
 
-	public Item GetCurrentItem()
+	public void Clear()
 	{
-		return transform.GetComponentInChildren<Item>();
+		InventoryItem item = transform.GetComponentInChildren<InventoryItem>();
+		if (item.GetItem() == null)
+		{
+			return;
+		}
+		item.SetItem(null);
+	}
+
+	public InventoryItem GetCurrentInventoryItem()
+	{
+		return transform.GetComponentInChildren<InventoryItem>();
 	}
 }

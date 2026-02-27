@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
 		{
 			return;
 		}
-		if (curItem.item_data.type == ItemType.Weapon)
+		if (curItem.GetItemData().type == ItemType.Weapon)
 		{
 			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			Vector2 direction = mousePos - playerHand.transform.position;
@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
 		curItem = item;
 		if (curItem != null)
 		{
-			holdItem.SetItemSprite(curItem.item_data.sprite);
+			holdItem.SetItemSprite(curItem.GetItemData().sprite);
 		}
 	}
 }

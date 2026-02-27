@@ -5,13 +5,14 @@ using UnityEngine.Events;
 
 public class Inventory : MonoBehaviour
 {
-	public Item itemPrefab;
-	public ItemData wand;
-	public ItemData log;
+	public InventoryItem inventoryItemPrefab;
+	public ItemData wandData;
+	public ItemData logData;
 	public int maxItem = 5;
 	public InventorySlot selectedSlot = null;
 	public List<InventorySlot> InventorySlots;
-	public UnityEvent<Item> OnSelected;
+	public readonly UnityEvent<Item> OnSelected = new();
+	public readonly UnityEvent UpdateInventory = new();
 
 	// Start is called before the first frame update
 	void Start()
@@ -29,17 +30,22 @@ public class Inventory : MonoBehaviour
 
 	public void AddItem(Item item)
 	{
+		if(item == null)
+		{
+			return;
+		}
 		foreach (var i in InventorySlots)
 		{
-			Item slotItem = i.GetCurrentItem();
-			if (i.transform.childCount == 0)
+			Item slotItem = i.GetCurrentInventoryItem().GetItem();
+			if (slotItem == null)
 			{
-				i.AddItem(item);
+				var inventoryItem = i.GetCurrentInventoryItem();
+				inventoryItem.SetItem(item);
 				break;
 			}
-			else if (item.IsStackable() && item.item_data == slotItem.item_data)
+			else if (item.IsStackable() && item.GetItemData() == slotItem.GetItemData())
 			{
-				if (slotItem.amount < item.item_data.maxStack)
+				if (slotItem.amount < slotItem.GetItemData().maxStack)
 				{
 					slotItem.amount += 1;
 					break;
@@ -47,19 +53,91 @@ public class Inventory : MonoBehaviour
 				continue;
 			}
 		}
+		UpdateInventory.Invoke();
+	}
+
+	public bool CheckRequireCraftItem(CraftReceipe receipe)
+	{
+		ItemData requireItem = receipe.item;
+		int requireAmount = receipe.amount;
+		foreach (var i in InventorySlots)
+		{
+			Item item = i.GetCurrentInventoryItem().GetItem();
+			if (item == null)
+			{
+				continue;
+			}
+
+			if (item.GetItemData() == requireItem)
+			{
+				if (item.amount >= requireAmount)
+				{
+					return true;
+				}
+				else
+				{
+					requireAmount -= item.amount;
+				}
+			}
+		}
+		return false;
+	}
+
+	public void CraftItem(CraftReceipe receipe)
+	{
+		ItemData requireItem = receipe.item;
+		int requireAmount = receipe.amount;
+		foreach (var i in InventorySlots)
+		{
+			Item item = i.GetCurrentInventoryItem().GetItem();
+			if (item == null)
+			{
+				continue;
+			}
+
+			if (item.GetItemData() == requireItem)
+			{
+				if (item.amount >= requireAmount)
+				{
+					item.amount -= requireAmount;
+					break;
+				}
+				else
+				{
+					requireAmount -= item.amount;
+					item.amount = 0;
+				}
+			}
+		}
+		CleanUpInventory();
+	}
+
+	public void CleanUpInventory()
+	{
+		foreach (var i in InventorySlots)
+		{
+			if (i.GetCurrentInventoryItem() == null)
+			{
+				continue;
+			}
+
+			Item item = i.GetCurrentInventoryItem().GetItem();
+			if (item.amount <= 0)
+			{
+				i.Clear();
+			}
+		}
 	}
 
 	public void AddWand()
 	{
-		var item = Instantiate(itemPrefab, this.transform);
-		item.SetItemData(wand);
+		var item = new Item(wandData);
 		AddItem(item);
 	}
 
 	public void AddLog()
 	{
-		var item = Instantiate(itemPrefab, this.transform);
-		item.SetItemData(log);
+		var item = new Item(logData);
 		AddItem(item);
 	}
 
@@ -69,7 +147,7 @@ public class Inventory : MonoBehaviour
 		{
 			return;
 		}
-		Debug.Log(selectedSlot.GetCurrentItem().item_data.itemName);
+		Debug.Log(selectedSlot.GetCurrentInventoryItem().GetItem().GetItemData().name);
 	}
 
 	public void SetSelectedSlot(InventorySlot i)
@@ -78,14 +156,16 @@ public class Inventory : MonoBehaviour
 		{
 			selectedSlot = i;
 			selectedSlot.SetSelected(true);
-			OnSelected.Invoke(i.GetCurrentItem());
+			Item item = i.GetCurrentInventoryItem().GetItem();
+			OnSelected.Invoke(item);
 		}
 		else if (selectedSlot != i)
 		{
 			selectedSlot.SetSelected(false);
 			selectedSlot = i;
 			selectedSlot.SetSelected(true);
-			OnSelected.Invoke(i.GetCurrentItem());
+			Item item = i.GetCurrentInventoryItem().GetItem();
+			OnSelected.Invoke(item);
 		}
 		else
 		{
