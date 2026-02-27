@@ -4,17 +4,30 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager instance;
-    public InventoryUI chestUI;
-    void Start()
-    {
-        instance = this;
-        chestUI.gameObject.SetActive(false);
-    }
+	public static UIManager instance;
+	public InventoryUI chestUI;
+    public bool isChestUIOpen = false;
+	public GameEvent<Chest> gameEvent;
 
-    // Update is called once per frame
-    void Update()
+	void Start()
+	{
+		instance = this;
+		gameEvent.AddListener(OpenChestInventory);
+		chestUI.gameObject.SetActive(false);
+	}
+
+	void OpenChestInventory(Chest chest)
     {
-        
+        isChestUIOpen = !isChestUIOpen;
+        if (isChestUIOpen)
+        {
+            chestUI.SetInventory(chest.GetComponent<Inventory>());
+            chestUI.gameObject.SetActive(isChestUIOpen);
+        }
+        else
+        {
+            chestUI.SetInventory(null);
+            chestUI.gameObject.SetActive(isChestUIOpen);
+        }
     }
 }

@@ -7,13 +7,20 @@ using UnityEngine.UI;
 public class InventorySlot : MonoBehaviour, IDropHandler
 {
 	public int id;
+	public InventoryUI parentInventoryUI;
 	public Outline selectedBorder;
+	public Button button;
 	public readonly UnityEvent<InventorySlot> OnSlotClick = new();
 	public readonly UnityEvent<InventorySlot,InventorySlot> OnItemChangeSlot = new();
 
 	// void Start()
 	// {
 	// }
+
+	public void SetInteractable(bool interactable)
+	{
+		button.interactable = interactable;
+	}
 
 	public void OnClick()
 	{

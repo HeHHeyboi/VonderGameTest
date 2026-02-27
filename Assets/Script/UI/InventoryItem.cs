@@ -33,7 +33,7 @@ public class InventoryItem : MonoBehaviour, IDragHandler, IEndDragHandler, IBegi
 
 	void Update()
 	{
-		if(item == null)
+		if(item ==null || item.GetItemData() == null)
 		{
 			return;
 		}
@@ -54,10 +54,12 @@ public class InventoryItem : MonoBehaviour, IDragHandler, IEndDragHandler, IBegi
 			this.item = null;
 			ItemImage.sprite = null;
 			text.text = "";
+			ItemImage.enabled = false;
 			return;
 		}
 
 		this.item = item;
+		ItemImage.enabled = true;
 		ItemImage.sprite = this.item.GetItemData().sprite;
 	}
 

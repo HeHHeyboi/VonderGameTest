@@ -150,6 +150,7 @@ GameObject:
   - component: {fileID: 164323278}
   - component: {fileID: 164323277}
   - component: {fileID: 164323276}
+  - component: {fileID: 164323279}
   m_Layer: 5
   m_Name: ChestInventoryUI
   m_TagString: Untagged
@@ -243,6 +244,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 164323274}
   m_CullTransparentMesh: 1
+--- !u!114 &164323279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 164323274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6deedba660912bf4c9ef2740143a76a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventory: {fileID: 0}
+  isChestUI: 0
+  selectedSlot: {fileID: 0}
+  InventorySlots:
+  - {fileID: 2058780745}
+  - {fileID: 2132951921}
+  - {fileID: 885342895}
+  - {fileID: 2016857270}
+  - {fileID: 1262077187}
+  - {fileID: 1983357811}
+  - {fileID: 487204531}
+  - {fileID: 1306512496}
+  - {fileID: 1554789359}
+  - {fileID: 1368868899}
+  - {fileID: 1605498500}
+  - {fileID: 634820226}
+  - {fileID: 1363906491}
+  - {fileID: 952557002}
+  - {fileID: 1100439891}
+  - {fileID: 624568940}
+  - {fileID: 980054490}
+  - {fileID: 805905465}
+  - {fileID: 779703836}
+  - {fileID: 483423214}
+  - {fileID: 1992268502}
+  - {fileID: 811979117}
+  - {fileID: 531998147}
+  - {fileID: 1121262111}
+  - {fileID: 2081902964}
+  - {fileID: 1647950022}
+  - {fileID: 921532958}
+  - {fileID: 1258192967}
+  - {fileID: 1427727670}
+  - {fileID: 1650904259}
 --- !u!1 &190581263
 GameObject:
   m_ObjectHideFlags: 0
@@ -1197,9 +1244,9 @@ GameObject:
   - component: {fileID: 491831629}
   - component: {fileID: 491831631}
   - component: {fileID: 491831633}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1232,7 +1279,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1306,14 +1353,14 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 576
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &491831632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1366,11 +1413,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -351112945
+  m_SortingLayer: 1
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5245282, g: 0.5245282, b: 0.5245282, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1395,6 +1442,7 @@ MonoBehaviour:
   wandData: {fileID: 11400000, guid: 9e9d686c33772754186b72dfedd3fbc9, type: 2}
   logData: {fileID: 11400000, guid: f9d4146d7593bf649b2ec222fa608c22, type: 2}
   maxItem: 5
+  items: []
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2697,6 +2745,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventory: {fileID: 491831634}
+  isChestUI: 0
   selectedSlot: {fileID: 0}
   InventorySlots:
   - {fileID: 1985013203}
@@ -4411,6 +4460,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4530466895945876020, guid: 5ffed2be79efda84d9c7d0dafe4b46d4, type: 3}
+      propertyPath: id
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4577233164947342999, guid: 5ffed2be79efda84d9c7d0dafe4b46d4, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4886,6 +4939,10 @@ PrefabInstance:
     - target: {fileID: 4577524840439585563, guid: 8fb1819f3780e22409462d863e5c87b6, type: 3}
       propertyPath: m_Name
       value: Mark2D
+      objectReference: {fileID: 0}
+    - target: {fileID: 4577524840439585563, guid: 8fb1819f3780e22409462d863e5c87b6, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4960367786489400219, guid: 8fb1819f3780e22409462d863e5c87b6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5468,6 +5525,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4530466895945876020, guid: 5ffed2be79efda84d9c7d0dafe4b46d4, type: 3}
+      propertyPath: id
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530466895945876020, guid: 5ffed2be79efda84d9c7d0dafe4b46d4, type: 3}
       propertyPath: Item
       value: 
       objectReference: {fileID: 0}
@@ -5856,6 +5917,10 @@ PrefabInstance:
     - target: {fileID: 673397036683177953, guid: 5ffed2be79efda84d9c7d0dafe4b46d4, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530466895945876020, guid: 5ffed2be79efda84d9c7d0dafe4b46d4, type: 3}
+      propertyPath: id
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4577233164947342999, guid: 5ffed2be79efda84d9c7d0dafe4b46d4, type: 3}
       propertyPath: m_AnchorMax.y
@@ -6904,6 +6969,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c962139073a014eadf8869416c86c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chestUI: {fileID: 164323279}
+  isChestUIOpen: 0
+  gameEvent: {fileID: 11400000, guid: fefa8bb76a47c714a97f7bd97565cde7, type: 2}
 --- !u!1001 &1363906489
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8712,6 +8780,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4530466895945876020, guid: 5ffed2be79efda84d9c7d0dafe4b46d4, type: 3}
+      propertyPath: id
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4577233164947342999, guid: 5ffed2be79efda84d9c7d0dafe4b46d4, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -9388,7 +9460,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1828378770}
   - component: {fileID: 1828378771}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: PlayerItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}

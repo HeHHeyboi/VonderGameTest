@@ -121,7 +121,7 @@ public class CraftManager : MonoBehaviour
 		CraftedItem.Invoke();
 	}
 
-	public void IsCanCraft(bool buttonActive)
+	public void SetCanCraft(bool buttonActive)
 	{
 		craftButton.interactable = buttonActive;
 	}

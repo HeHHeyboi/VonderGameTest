@@ -72,6 +72,15 @@ public class Inventory : MonoBehaviour
 		}
 	}
 
+	public void SetItem(int index, Item item)
+	{
+		if (index >= 0 && index < items.Count)
+		{
+			items[index] = item;
+			OnInventoryChanged.Invoke();
+		}
+	}
+
 	public void SwapItems(int index1, int index2)
 	{
 		// Debug.Log($"Swapped items at index {index1} and {index2}");

@@ -190,6 +190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   selectedBorder: {fileID: 2679230714714891047}
+  button: {fileID: 8090094015201113455}
 --- !u!222 &4910420366552531762
 CanvasRenderer:
   m_ObjectHideFlags: 0

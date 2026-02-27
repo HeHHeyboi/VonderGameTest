@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 	void OnEnable()
 	{
 		inventoryUI.OnSelected.AddListener(SetPlayerSelectedItem);
+		playerInventory.OnInventoryChanged.AddListener(UpdateCraftPanel);
 		craftManager.AddListener(CraftItem);
 		craftManager.AddListener(CheckCraftItemReceipe);
 		player.PlaceItem.AddListener(PlayerPlaceItem);
@@ -21,6 +22,22 @@ public class GameManager : MonoBehaviour
 		craftManager.RemoveListener(CheckCraftItemReceipe);
 		craftManager.RemoveListener(CraftItem);
 		player.PlaceItem.RemoveListener(PlayerPlaceItem);
+	}
+
+	void UpdateCraftPanel()
+	{
+		ItemData craftItem = craftManager.GetCurrentSelectedItem();
+		if (craftItem == null)
+		{
+			return;
+		}
+		bool canCraft = false;
+		foreach (var i in craftItem.craftReceipes)
+		{
+			canCraft = playerInventory.CheckRequireCraftItem(i);
+		}
+
+		craftManager.SetCanCraft(canCraft);
 	}
 
 	public void PlayerPlaceItem(int index)
@@ -47,7 +64,7 @@ public class GameManager : MonoBehaviour
 			canCraft = playerInventory.CheckRequireCraftItem(i);
 		}
 
-		craftManager.IsCanCraft(canCraft);
+		craftManager.SetCanCraft(canCraft);
 	}
 
 	void CraftItem()

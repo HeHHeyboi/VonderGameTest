@@ -7,6 +7,7 @@ public class InventoryUI : MonoBehaviour
 	[SerializeField]
 	private Inventory inventory;
 
+	public bool isChestUI = false;
 	public InventorySlot selectedSlot = null;
 	public List<InventorySlot> InventorySlots;
 	public readonly UnityEvent<Item, int> OnSelected = new();
@@ -19,10 +20,17 @@ public class InventoryUI : MonoBehaviour
 		}
 
 		// Setup slot click listeners
-		foreach (var slot in InventorySlots)
+		for (int i = 0; i < InventorySlots.Count; i++)
 		{
-			slot.OnSlotClick.AddListener(SetSelectedSlot);
+			var slot = InventorySlots[i];
+			slot.id = i;
+			slot.parentInventoryUI = this;
+			if (isChestUI)
+			{
+				slot.SetInteractable(false);
+			}
 			slot.OnItemChangeSlot.AddListener(OnChangeItemSlot);
+			slot.OnSlotClick.AddListener(SetSelectedSlot);
 		}
 
 		// Subscribe to inventory changes
@@ -51,27 +59,63 @@ public class InventoryUI : MonoBehaviour
 		UpdateUI();
 	}
 
-	public void OnChangeItemSlot(InventorySlot slot1,InventorySlot slot2)
+	public void OnChangeItemSlot(InventorySlot slot1, InventorySlot slot2)
 	{
-		int index1 = InventorySlots.IndexOf(slot1);
-		int index2 = InventorySlots.IndexOf(slot2);
-		int selectedIndex = InventorySlots.IndexOf(selectedSlot);
-		// Debug.Log($"Changing item slot from index {index1} to index {index2}");
+		int index1 = slot1.id;
+		int index2 = slot2.id;
+		int selectedIndex = selectedSlot != null ? selectedSlot.id : -1;
 
-		if (index1 >= 0 && index2 >= 0 && inventory != null)
+		if (slot1.parentInventoryUI != slot2.parentInventoryUI)
+		{
+			MoveItemBetweenInventories(slot1, slot2);
+		}
+		else if (index1 >= 0 && index2 >= 0 && inventory != null)
 		{
 			inventory.SwapItems(index1, index2);
 		}
 
-		if(selectedIndex == index1)
+		if (selectedSlot != null && (selectedIndex == index1 || selectedIndex == index2))
 		{
 			var (item, index) = GetItemFromSlot(selectedSlot);
 			OnSelected.Invoke(item, index);
 		}
-		else if(selectedIndex == index2)
+	}
+
+	private void MoveItemBetweenInventories(InventorySlot fromSlot, InventorySlot toSlot)
+	{
+		InventoryUI fromInventoryUI = fromSlot.parentInventoryUI;
+		InventoryUI toInventoryUI = toSlot.parentInventoryUI;
+
+		if (fromInventoryUI == null || toInventoryUI == null)
 		{
-			var (item, index) = GetItemFromSlot(selectedSlot);
-			OnSelected.Invoke(item, index);
+			return;
+		}
+
+		Inventory fromInventory = fromInventoryUI.inventory;
+		Inventory toInventory = toInventoryUI.inventory;
+
+		if (fromInventory == null || toInventory == null)
+		{
+			return;
+		}
+
+		int fromIndex = fromSlot.id;
+		int toIndex = toSlot.id;
+
+		Item fromItem = fromInventory.GetItem(fromIndex);
+		Item toItem = toInventory.GetItem(toIndex);
+
+		// Move/swap items between inventories
+		if (fromItem != null)
+		{
+			fromInventory.RemoveItem(fromIndex);
+			toInventory.SetItem(toIndex, fromItem);
+		}
+
+		if (toItem != null)
+		{
+			toInventory.RemoveItem(toIndex);
+			fromInventory.SetItem(fromIndex, toItem);
 		}
 	}
 
@@ -121,6 +165,12 @@ public class InventoryUI : MonoBehaviour
 		for (int i = 0; i < InventorySlots.Count && i < items.Count; i++)
 		{
 			var uiItem = InventorySlots[i].GetCurrentInventoryItem();
+
+			if (uiItem == null)
+			{
+				continue;
+			}
+
 			if (items[i] == null)
 			{
 				uiItem.SetItem(null);
