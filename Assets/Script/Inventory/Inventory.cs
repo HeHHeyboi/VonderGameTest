@@ -29,14 +29,14 @@ public class Inventory : MonoBehaviour
 
 	public void AddItem(Item item)
 	{
-		if(item == null)
+		if (item == null)
 		{
 			return;
 		}
 		foreach (var i in InventorySlots)
 		{
 			Item slotItem = i.GetCurrentInventoryItem().GetItem();
-			if (slotItem.GetItemData() == null)
+			if (slotItem == null || slotItem.GetItemData() == null)
 			{
 				var inventoryItem = i.GetCurrentInventoryItem();
 				inventoryItem.SetItem(item);
@@ -111,16 +111,32 @@ public class Inventory : MonoBehaviour
 		CleanUpInventory();
 	}
 
+	public void UseItem()
+	{
+		if (selectedSlot == null)
+		{
+			return;
+		}
+
+		var item = selectedSlot.GetCurrentInventoryItem().GetItem();
+		if (item != null)
+		{
+			Debug.Log("Use " + item.GetItemData().name);
+			Debug.Log("Amount " + item.amount);
+			item.amount -= 1;
+			CleanUpInventory();
+		}
+	}
+
 	public void CleanUpInventory()
 	{
 		foreach (var i in InventorySlots)
 		{
-			if (i.GetCurrentInventoryItem() == null)
+			Item item = i.GetCurrentInventoryItem().GetItem();
+			if (item == null)
 			{
 				continue;
 			}
-
-			Item item = i.GetCurrentInventoryItem().GetItem();
 			if (item.amount <= 0)
 			{
 				i.Clear();

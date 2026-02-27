@@ -49,8 +49,15 @@ public class InventoryItem : MonoBehaviour, IDragHandler, IEndDragHandler, IBegi
 
 	public void SetItem(Item item)
 	{
+		if(item == null || item.GetItemData() == null)
+		{
+			this.item = null;
+			ItemImage.sprite = null;
+			text.text = "";
+			return;
+		}
+
 		this.item = item;
-		Debug.Log(item.GetItemData().sprite.name);
 		ItemImage.sprite = this.item.GetItemData().sprite;
 	}
 

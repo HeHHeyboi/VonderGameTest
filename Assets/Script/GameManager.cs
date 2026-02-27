@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 		playerInventory.UpdateInventory.AddListener(InventoryUpdate);
 		craftManager.AddListener(CraftItem);
 		craftManager.AddListener(CheckCraftItemReceipe);
+		player.PlaceItem.AddListener(PlayerPlaceItem);
 	}
 
 	void OnDisable()
@@ -20,6 +21,12 @@ public class GameManager : MonoBehaviour
 		playerInventory.UpdateInventory.RemoveListener(InventoryUpdate);
 		craftManager.RemoveListener(CheckCraftItemReceipe);
 		craftManager.RemoveListener(CraftItem);
+		player.PlaceItem.RemoveListener(PlayerPlaceItem);
+	}
+
+	public void PlayerPlaceItem()
+	{
+		playerInventory.UseItem();
 	}
 
 	void SetPlayerSelectedItem(Item item)
@@ -54,10 +61,13 @@ public class GameManager : MonoBehaviour
 
 	void CraftItem()
 	{
-		ItemData item = craftManager.GetCurrentSelectedItem();
-		foreach (var receipe in item.craftReceipes)
+		ItemData data = craftManager.GetCurrentSelectedItem();
+		foreach (var receipe in data.craftReceipes)
 		{
 			playerInventory.CraftItem(receipe);
 		}
+
+		Item item = new(data);
+		playerInventory.AddItem(item);
 	}
 }

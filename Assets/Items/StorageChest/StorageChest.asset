@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e1584e159c0fd74586ce86b1a0b4d58, type: 3}
+  m_Script: {fileID: 11500000, guid: 61235558dcf9b3c47a9b1e5b0db95d25, type: 3}
   m_Name: StorageChest
   m_EditorClassIdentifier: 
   itemName: Storage Chest
@@ -19,3 +19,4 @@ MonoBehaviour:
   craftAble: 1
   craftReceipes:
   - {fileID: 11400000, guid: 374920a2051d50549a3805124cfe987e, type: 2}
+  placePrefab: {fileID: 2183104489650819982, guid: 90d0cab020c03ff449a2091d6bacf8c8, type: 3}
