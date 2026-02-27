@@ -10,10 +10,16 @@ public class TimePanel : MonoBehaviour
 	public TMP_Text periodText;
 	public TMP_Text dayText;
 
-	void Start()
+	private void OnEnable() 
 	{
 		OnPeriodChange.AddListener(ChangePeriodText);
 		OnDayChange.AddListener(ChangeDayText);
+	}
+
+	private void OnDisable() 
+	{
+		OnPeriodChange.RemoveListener(ChangePeriodText);
+		OnDayChange.RemoveListener(ChangeDayText);
 	}
 
 	void ChangePeriodText(Period period)
