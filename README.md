@@ -31,6 +31,9 @@
 - Fix Left over หรือ bug ที่พึ่งเจอ (1 hour)
   - Bug ที่แก้คือเมื่อย้ายของลงไปที่ Storage Chest แล้วของไม่ได้ไปใส่ใน Inventory component ของ Storage Chest
 
+# Third Day
+- Implement & Testing Combat System (4 hour)
+  - สร้าง UI และ Logic สำหรับ Combat
 # Design
 System Design: https://drive.google.com/file/d/1rJAeOVaGRVxN0sLItI0_Y0veRcxJqglZ/view?usp=sharing
 
