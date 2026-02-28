@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -9,6 +6,8 @@ public class Player : MonoBehaviour
 {
 	public Rigidbody2D rb;
 	public float speed = 20;
+	public Health playerHealth;
+	public Mark2D restartPoint;
 	public Item curItem;
 	public int curItemIndex;
 	public GameObject playerHand;
@@ -63,6 +62,7 @@ public class Player : MonoBehaviour
 				var bullet = Instantiate(weapon.BulletPrefab, null, true);
 				bullet.transform.position = transform.position;
 				bullet.transform.rotation = playerHand.transform.rotation;
+				bullet.GetComponent<Bullet>().SetBulletDamage(weapon.Damage);
 				break;
 		}
 	}
@@ -103,5 +103,16 @@ public class Player : MonoBehaviour
 
 		curItem = item;
 		holdItem.SetItemSprite(curItem.GetItemData().sprite);
+	}
+
+	public void TakeDamage(int damage)
+	{
+		playerHealth.TakeDamage(damage);
+	}
+
+	public void OnPlayerDeath()
+	{
+		playerHealth.currentHealth = playerHealth.maxHealth;
+		transform.position = restartPoint.GetPosition();
 	}
 }

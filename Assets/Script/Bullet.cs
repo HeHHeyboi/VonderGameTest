@@ -23,8 +23,8 @@ public class Bullet : MonoBehaviour
 	{
 		if (collision.CompareTag("Enemy"))
 		{
-			var enemy = (Slime)collision.GetComponent<IEnemy>();
-			Debug.Log(enemy.gameObject.name);
+			var enemy = collision.GetComponent<Enemy>();
+			enemy.TakeDamage(damage);
 			Destroy(gameObject);
 		}
 	}
