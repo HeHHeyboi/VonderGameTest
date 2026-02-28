@@ -5,6 +5,15 @@ using UnityEngine;
 public class SmallSlime : Enemy
 {
     Player player;
+    [SerializeField]
+    Collider2D bodyCollider;
+	LayerMask groundLayer;
+
+    void Awake()
+    {
+        bodyCollider = GetComponent<Collider2D>();
+		groundLayer = LayerMask.GetMask("Floor");
+    }
 
     void OnEnable()
     {
@@ -31,7 +40,7 @@ public class SmallSlime : Enemy
 
     void Update()
     {
-        if (player != null && !enterAttackRange)
+        if (player != null && !enterAttackRange && IsGrounded())
         {
             float direction = Mathf.Sign(player.transform.position.x - transform.position.x);
             transform.Translate(direction * moveSpeed * Time.deltaTime * Vector2.right);
@@ -103,7 +112,14 @@ public class SmallSlime : Enemy
 
     public override void OnDeath()
     {
-        Debug.Log("Small Slime Died");
+        Destroy(gameObject);
+    }
+
+    bool IsGrounded()
+    {
+        if (bodyCollider == null)
+            return true;
+        return groundLayer.value == 0 ? bodyCollider.IsTouchingLayers() : bodyCollider.IsTouchingLayers(groundLayer);
     }
 }
 

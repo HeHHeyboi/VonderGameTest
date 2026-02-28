@@ -2,8 +2,19 @@ using UnityEngine;
 
 public class Slime : Enemy
 {
-
 	Player player;
+	public GameObject SmallSlimeStore;
+	[SerializeField]
+	float smallSlimeLaunchForce = 3f;
+	LayerMask groundLayer;
+	[SerializeField]
+	Collider2D bodyCollider;
+
+	void Awake()
+	{
+		bodyCollider = GetComponent<Collider2D>();
+		groundLayer = LayerMask.GetMask("Floor");
+	}
 	void OnEnable()
 	{
 		detectionZone.AddOnEnterListener(OnPlayerEnterDetection);
@@ -29,7 +40,7 @@ public class Slime : Enemy
 
 	void Update()
 	{
-		if (player != null && !enterAttackRange)
+		if (player != null && !enterAttackRange && IsGrounded())
 		{
 			float direction = Mathf.Sign(player.transform.position.x - transform.position.x);
 			transform.Translate(direction * moveSpeed * Time.deltaTime * Vector2.right);
@@ -102,5 +113,30 @@ public class Slime : Enemy
 	public override void OnDeath()
 	{
 		Debug.Log("Slime Died");
+		SmallSlimeStore.SetActive(true);
+		var smallSlimes = SmallSlimeStore.GetComponentsInChildren<SmallSlime>();
+		foreach (var smallSlime in smallSlimes)
+		{
+			smallSlime.transform.SetParent(null, true);
+			var rb = smallSlime.GetComponent<Rigidbody2D>();
+			if (rb == null)
+				continue;
+
+			rb.velocity = Vector2.zero;
+			var launchDirection = Random.insideUnitCircle;
+			if (launchDirection == Vector2.zero)
+			{
+				launchDirection = Vector2.up;
+			}
+			rb.AddForce(launchDirection.normalized * smallSlimeLaunchForce, ForceMode2D.Impulse);
+		}
+		Destroy(gameObject);
+	}
+
+	bool IsGrounded()
+	{
+		if (bodyCollider == null)
+			return true;
+		return groundLayer.value == 0 ? bodyCollider.IsTouchingLayers() : bodyCollider.IsTouchingLayers(groundLayer);
 	}
 }

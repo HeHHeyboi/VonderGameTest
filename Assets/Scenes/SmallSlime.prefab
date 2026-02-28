@@ -76,7 +76,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 1}
+  m_Size: {x: 2, y: 2}
   m_EdgeRadius: 0
 --- !u!114 &4264763976849642743
 MonoBehaviour:
@@ -172,7 +172,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 6, y: 1}
+  m_Size: {x: 16, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &4660369711040227091
 MonoBehaviour:
@@ -205,9 +205,9 @@ GameObject:
   - component: {fileID: 401295988944684406}
   - component: {fileID: 8959673834029672068}
   - component: {fileID: 2118776035711364370}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SmallSlime
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -374,7 +374,7 @@ MonoBehaviour:
   enterAttackRange: 0
   detectionZone: {fileID: 4660369711040227091}
   attackZone: {fileID: 4264763976849642743}
-  damage: 10
+  damage: 5
 --- !u!1001 &7309121287569164540
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -482,7 +482,7 @@ PrefabInstance:
     - target: {fileID: 8712313014026643316, guid: 844047f2c97a4f54682aba8f5982c1a6, type: 3}
       propertyPath: OnDie.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 7641035505366055566}
+      objectReference: {fileID: 2118776035711364370}
     - target: {fileID: 8712313014026643316, guid: 844047f2c97a4f54682aba8f5982c1a6, type: 3}
       propertyPath: OnDie.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -493,7 +493,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8712313014026643316, guid: 844047f2c97a4f54682aba8f5982c1a6, type: 3}
       propertyPath: OnDie.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Slime, Assembly-CSharp
+      value: SmallSlime, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8712313014026643316, guid: 844047f2c97a4f54682aba8f5982c1a6, type: 3}
       propertyPath: OnDie.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
