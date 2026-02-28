@@ -46,10 +46,14 @@ System Design: https://drive.google.com/file/d/1rJAeOVaGRVxN0sLItI0_Y0veRcxJqglZ
 - Time Hop
   - TimeManager: สำหรับจัดการช่วงเวลา, วัน และวันที่ รวมเก็บตัว GameEvent เพื่อเป็นตัวกลางในการับ request และ Update Event
   - TimePanel: สำหรับแสดงผลและ format เวลาและวันที่
+- - Combat System
+  - Player สามารถใช้ Item ประเภท Weapon เพื่อยิงกระสุนออกไปได้
+  - Enemy abstract class สำหรับเป็น base class ของ Enemy ทุกตัว
+  - Slime & SmallSlime
+  - Health class แสดง HP ที่เหลืออยู่รวมถึงเมื่อ HP <= 0 จะส่ง Event OnDie
  
 สาเหตุที่เลือกที่จะทำ Inventory System ก่อนเพราะตัวของ Inventory ระบบพื้นฐานที่ Crafting และ Combat System ใชัและมีความเกี่ยวข้องกัน ส่วน TimeHop System เป็นระบบเดียวที่ไม่ได้เกี่ยวข้องกับระบบอื่นจึงสามารถเอาไว้ทำระบบสุดท้ายได้
 # Remained
-- Combat System
 - Refine Other Art and UI
 
 # Challenge & Problem
