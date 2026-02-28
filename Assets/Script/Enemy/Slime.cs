@@ -58,7 +58,7 @@ public class Slime : Enemy
 		}
 	}
 
-	public override void OnPlayerEnterDetection(Collider2D collider)
+	protected override void OnPlayerEnterDetection(Collider2D collider)
 	{
 		if (!collider.CompareTag("Player"))
 			return;
@@ -66,7 +66,7 @@ public class Slime : Enemy
 		Debug.Log("Player Enter");
 	}
 
-	public override void OnPlayerExitDetection(Collider2D collider)
+	protected override void OnPlayerExitDetection(Collider2D collider)
 	{
 		if (!collider.CompareTag("Player"))
 			return;
@@ -74,7 +74,7 @@ public class Slime : Enemy
 		Debug.Log("Player Left");
 	}
 
-	public override void OnPlayerEnterAttackRange(Collider2D collider)
+	protected override void OnPlayerEnterAttackRange(Collider2D collider)
 	{
 		if (!collider.CompareTag("Player"))
 			return;
@@ -87,7 +87,7 @@ public class Slime : Enemy
 		}
 	}
 
-	public override void OnPlayerExitAttackRange(Collider2D collider)
+	protected override void OnPlayerExitAttackRange(Collider2D collider)
 	{
 		if (!collider.CompareTag("Player"))
 			return;
