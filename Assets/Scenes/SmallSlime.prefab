@@ -308,7 +308,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &8959673834029672068
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -324,7 +324,7 @@ BoxCollider2D:
     m_Bits: 1024
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4352
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -375,6 +375,7 @@ MonoBehaviour:
   detectionZone: {fileID: 4660369711040227091}
   attackZone: {fileID: 4264763976849642743}
   damage: 5
+  bodyCollider: {fileID: 0}
 --- !u!1001 &7309121287569164540
 PrefabInstance:
   m_ObjectHideFlags: 0

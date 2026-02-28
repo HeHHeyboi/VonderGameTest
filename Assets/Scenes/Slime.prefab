@@ -344,7 +344,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &8293521076921966149
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -360,7 +360,7 @@ BoxCollider2D:
     m_Bits: 1024
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4352
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -413,6 +413,7 @@ MonoBehaviour:
   damage: 10
   SmallSlimeStore: {fileID: 4882755580250590563}
   smallSlimeLaunchForce: 10
+  bodyCollider: {fileID: 0}
 --- !u!1001 &612059363464038939
 PrefabInstance:
   m_ObjectHideFlags: 0
