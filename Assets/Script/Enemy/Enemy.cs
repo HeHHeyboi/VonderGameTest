@@ -4,12 +4,17 @@ public abstract class Enemy : MonoBehaviour
 {
 	[SerializeField]
 	protected Health health;
+	[SerializeField]
 	protected float moveSpeed = 10;
+	[SerializeField]
 	protected float maxCooldown = 0.5f;
+	[SerializeField]
 	protected float attackCooldown;
 	protected bool canAttack = true;
 	protected bool enterAttackRange = false;
+	[SerializeField]
 	protected Area2D detectionZone;
+	[SerializeField]
 	protected Area2D attackZone;
 	protected int damage = 10;
 	protected abstract void OnPlayerEnterDetection(Collider2D collider);

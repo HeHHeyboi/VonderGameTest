@@ -98,11 +98,13 @@ public class Player : MonoBehaviour
 	{
 		if (item == null || item.GetItemData() == null)
 		{
-			curItem = null;
+			Debug.Log("Hold item cleared");
 			holdItem.SetItemSprite(null);
+			curItem = null;
 			return;
 		}
 
+		Debug.Log("Hold item set to " + item.GetItemData().name);
 		curItem = item;
 		holdItem.SetItemSprite(curItem.GetItemData().sprite);
 	}

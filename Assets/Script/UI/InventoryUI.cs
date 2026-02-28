@@ -59,9 +59,6 @@ public class InventoryUI : MonoBehaviour
 			inventory.OnInventoryChanged.AddListener(UpdateUI);
 		}
 
-
-		Debug.Log($"Inventory set for {gameObject.name}, has inventory: {inventory != null}");
-
 		UpdateUI();
 	}
 
@@ -75,9 +72,13 @@ public class InventoryUI : MonoBehaviour
 
 		int index1 = prevSlot.id;
 		int index2 = currentSlot.id;
-		int selectedIndex = selectedSlot != null ? selectedSlot.id : -1;
-		Debug.Log($"Changing item from slot {index1} to slot {index2}");
-		Debug.Log($"parent inventory of prev slot: {prevSlot.parentInventoryUI}, parent inventory of current slot: {currentSlot.parentInventoryUI}");
+		var localSelectedSlot = prevSlot.parentInventoryUI.selectedSlot;
+		int selectedIndex = localSelectedSlot != null ? localSelectedSlot.id : -1;
+		if (!currentSlot.parentInventoryUI.isChestUI)
+		{
+			localSelectedSlot = currentSlot;
+			selectedIndex = index2;
+		}
 
 		if (prevSlot.parentInventoryUI != currentSlot.parentInventoryUI)
 		{
@@ -88,15 +89,20 @@ public class InventoryUI : MonoBehaviour
 			inventory.SwapItems(index1, index2);
 		}
 
-		// if (currentSlot.parentInventoryUI.isChestUI)
-		// {
-		// 	return;
-		// }
-
-		if (selectedSlot != null && (selectedIndex == index1 || selectedIndex == index2))
+		if (localSelectedSlot != null && (selectedIndex == index1 || selectedIndex == index2))
 		{
-			var (item, index) = GetItemFromSlot(selectedSlot);
-			OnSelected.Invoke(item, index);
+			var (item, index) = GetItemFromSlot(localSelectedSlot);
+			if (!isChestUI)
+			{
+				//NOTE: เรียกตัวนี้ถ้า เปลี่ยน item ใน inventory ของ player เท่านั้น
+				// หรือ เรียกตัวนี้ถ้า ลาก Item จาก chest ไป inventory ของ player
+				this.OnSelected.Invoke(item, index);
+			}
+			else
+			{
+				//NOTE: เรียกตัวนี้ถ้าลาก Item จาก inventory ของ player ไป chest
+				prevSlot.parentInventoryUI.OnSelected.Invoke(item, index);
+			}
 		}
 	}
 

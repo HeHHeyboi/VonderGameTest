@@ -170,8 +170,6 @@ public class Inventory : MonoBehaviour
 		}
 
 		Item item = items[index];
-		Debug.Log("Use " + item.GetItemData().name);
-		Debug.Log("Amount " + item.amount);
 		if (item.GetItemData().type == ItemType.Placeable)
 		{
 			item.amount -= 1;
