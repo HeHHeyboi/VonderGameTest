@@ -34,6 +34,8 @@
 # Third Day
 - Implement & Testing Combat System (4 hour)
   - สร้าง UI และ Logic สำหรับ Combat
+- Test Other System & Fix Bug (2 hour)
+ 
 # Design
 System Design: https://drive.google.com/file/d/1rJAeOVaGRVxN0sLItI0_Y0veRcxJqglZ/view?usp=sharing
 
