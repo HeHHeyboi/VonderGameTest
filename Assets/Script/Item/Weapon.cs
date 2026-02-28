@@ -1,7 +1,8 @@
 using UnityEngine;
 
-public class Weapon : Item
+[CreateAssetMenu(fileName = "Weapon")]
+public class Weapon : ItemData
 {
-	public Weapon(ItemData data)
-		: base(data) { }
+	public int Damage;
+	public GameObject BulletPrefab;
 }

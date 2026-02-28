@@ -6661,7 +6661,7 @@ PrefabInstance:
     - target: {fileID: 4530466895945876020, guid: 5ffed2be79efda84d9c7d0dafe4b46d4, type: 3}
       propertyPath: ItemData
       value: 
-      objectReference: {fileID: 11400000, guid: 9e9d686c33772754186b72dfedd3fbc9, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4577233164947342999, guid: 5ffed2be79efda84d9c7d0dafe4b46d4, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -6930,7 +6930,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 776293631}
+      - m_Target: {fileID: 491831634}
         m_TargetAssemblyTypeName: Inventory, Assembly-CSharp
         m_MethodName: AddLog
         m_Mode: 1
@@ -10627,8 +10627,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -221570189
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -5177388603050735206, guid: 8884154dfe85442a3a3578be807dbcdf, type: 3}
   m_Color: {r: 0, g: 1, b: 0.021636724, a: 1}
@@ -10650,7 +10650,7 @@ Transform:
   m_GameObject: {fileID: 1759991823}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.70687366, w: 0.7073398}
-  m_LocalPosition: {x: 6.44, y: -1.47, z: 0}
+  m_LocalPosition: {x: 6.44, y: -2.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10929,7 +10929,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 776293631}
+      - m_Target: {fileID: 491831634}
         m_TargetAssemblyTypeName: Inventory, Assembly-CSharp
         m_MethodName: AddWand
         m_Mode: 1
@@ -12434,8 +12434,8 @@ Transform:
   m_GameObject: {fileID: 2105695361}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -3.61, z: 0}
-  m_LocalScale: {x: 17.898346, y: 3.0892, z: 1}
+  m_LocalPosition: {x: 0.7333, y: -3.61, z: 0}
+  m_LocalScale: {x: 42.34415, y: 3.0892, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

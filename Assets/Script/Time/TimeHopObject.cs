@@ -26,11 +26,6 @@ public class TimeHopObjet : MonoBehaviour
 		ChangeTime();
 	}
 
-	void OnTriggerExit2D()
-	{
-		ChangeTime();
-	}
-
 	public void OnClick()
 	{
 		ChangeTime();

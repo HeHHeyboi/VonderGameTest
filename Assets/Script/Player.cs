@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -58,6 +59,10 @@ public class Player : MonoBehaviour
 				PlaceItem.Invoke(curItemIndex);
 				break;
 			case ItemType.Weapon:
+				Weapon weapon = (Weapon)data;
+				var bullet = Instantiate(weapon.BulletPrefab, null, true);
+				bullet.transform.position = transform.position;
+				bullet.transform.rotation = playerHand.transform.rotation;
 				break;
 		}
 	}
