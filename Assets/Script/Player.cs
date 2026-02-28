@@ -31,8 +31,9 @@ public class Player : MonoBehaviour
 
 		if (Input.GetMouseButtonDown(0))
 		{
+			Debug.Log(EventSystem.current.IsPointerOverGameObject());
 			// Only use item if not clicking on UI
-			if (!IsPointerOverSpecificUILayer("UI"))
+			if (!EventSystem.current.IsPointerOverGameObject())
 			{
 				UseItem();
 			}
@@ -115,24 +116,5 @@ public class Player : MonoBehaviour
 	{
 		playerHealth.currentHealth = playerHealth.maxHealth;
 		transform.position = restartPoint.GetPosition();
-	}
-
-	bool IsPointerOverSpecificUILayer(string layerName)
-	{
-		PointerEventData pointerData = new PointerEventData(EventSystem.current);
-		pointerData.position = Input.mousePosition;
-
-		List<RaycastResult> results = new List<RaycastResult>();
-		EventSystem.current.RaycastAll(pointerData, results);
-
-		foreach (var result in results)
-		{
-			if (result.gameObject.layer == LayerMask.NameToLayer(layerName))
-			{
-				return true;
-			}
-		}
-
-		return false;
 	}
 }
