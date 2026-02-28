@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -16,8 +17,8 @@ TagManager:
   - Building
   - InteractArea
   - Player
-  - 
-  - 
+  - Bullet
+  - Enemy
   - 
   - 
   - 
@@ -49,4 +50,7 @@ TagManager:
     locked: 0
   - name: Item
     uniqueID: 422747919
+    locked: 0
+  - name: Enemy
+    uniqueID: 4017561381
     locked: 0
