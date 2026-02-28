@@ -19,6 +19,16 @@ public class Bullet : MonoBehaviour
 		transform.position += bulletSpeed * deltaTime * transform.right;
 	}
 
+	void OnTriggerEnter2D(Collider2D collision)
+	{
+		if (collision.CompareTag("Enemy"))
+		{
+			var enemy = (Slime)collision.GetComponent<IEnemy>();
+			Debug.Log(enemy.gameObject.name);
+			Destroy(gameObject);
+		}
+	}
+
 	public void SetBulletDamage(int damage)
 	{
 		this.damage = damage;
